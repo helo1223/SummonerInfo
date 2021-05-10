@@ -29,17 +29,13 @@ class DetailsMainFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
         profileDataHolder = if (activity is ProfileDataHolder) {
             activity as ProfileDataHolder?
         } else {
             throw RuntimeException(
                     "Activity must implement ProfileDataHolder interface!"
             )
-
         }
-
     }
 
     override fun onCreateView(
@@ -82,19 +78,7 @@ class DetailsMainFragment : Fragment() {
             binding.leagueSOLOTEXT.text = getString(R.string.league, league[0].tier, league[0].rank, league[0].leaguePoints.toString()+"lp")
             binding.leagueSOLOWinLoss.text = getString(R.string.winloss, league[0].wins.toString(), league[0].losses.toString())
 
-            var soloDrawable = 0
-
-            when(league[0].tier){
-                "IRON" -> soloDrawable = R.drawable.emblem_iron
-                "BRONZE" -> soloDrawable = R.drawable.emblem_bronze
-                "SILVER" -> soloDrawable = R.drawable.emblem_silver
-                "GOLD" -> soloDrawable = R.drawable.emblem_gold
-                "PLATINUM" -> soloDrawable = R.drawable.emblem_platinum
-                "DIAMOND" -> soloDrawable = R.drawable.emblem_diamond
-                "MASTER" -> soloDrawable = R.drawable.emblem_master
-                "GRANDMASTER" -> soloDrawable = R.drawable.emblem_grandmaster
-                "CHALLENGER" -> soloDrawable = R.drawable.emblem_challenger
-            }
+            val soloDrawable = getEmblem(league[0].tier!!)
 
             binding.leagueSOLO.setImageResource(soloDrawable)
             binding.chartSOLO.data = loadCharts(league[0])
@@ -106,31 +90,37 @@ class DetailsMainFragment : Fragment() {
                 binding.leagueFLEXTEXT.text = getString(R.string.league, league[1].tier, league[1].rank, league[1].leaguePoints.toString()+"lp")
                 binding.leagueFLEXWinLoss.text = getString(R.string.winloss, league[1].wins.toString(), league[1].losses.toString())
 
-                var flexDrawable = 0
+                val flexDrawable = getEmblem(league[1].tier!!)
 
-                when (league[1].tier) {
-                    "IRON" -> flexDrawable = R.drawable.emblem_iron
-                    "BRONZE" -> flexDrawable = R.drawable.emblem_bronze
-                    "SILVER" -> flexDrawable = R.drawable.emblem_silver
-                    "GOLD" -> flexDrawable = R.drawable.emblem_gold
-                    "PLATINUM" -> flexDrawable = R.drawable.emblem_platinum
-                    "DIAMOND" -> flexDrawable = R.drawable.emblem_diamond
-                    "MASTER" -> flexDrawable = R.drawable.emblem_master
-                    "GRANDMASTER" -> flexDrawable = R.drawable.emblem_grandmaster
-                    "CHALLENGER" -> flexDrawable = R.drawable.emblem_challenger
-                }
                 binding.leagueFLEX.setImageResource(flexDrawable)
                 binding.chartFLEX.data = loadCharts(league[1])
                 binding.chartFLEX.invalidate()
-            }
+           }
         }else{
             binding.rankLayout.visibility = View.GONE
         }
     }
 
+    fun getEmblem(tier : String) : Int{
+        when (tier) {
+            "IRON" -> return R.drawable.emblem_iron
+            "BRONZE" -> return R.drawable.emblem_bronze
+            "SILVER" -> return R.drawable.emblem_silver
+            "GOLD" -> return R.drawable.emblem_gold
+            "PLATINUM" -> return R.drawable.emblem_platinum
+            "DIAMOND" -> return R.drawable.emblem_diamond
+            "MASTER" -> return R.drawable.emblem_master
+            "GRANDMASTER" -> return R.drawable.emblem_grandmaster
+            "CHALLENGER" -> return R.drawable.emblem_challenger
+        }
+        return 0
+    }
+
+
+
     private fun loadCharts(league: League) : PieData {
 
-        var entries: ArrayList<PieEntry> = ArrayList()
+        val entries: ArrayList<PieEntry> = ArrayList()
 
         entries.add(PieEntry(league.losses.toFloat(), "Losses"))
         entries.add(PieEntry(league.wins.toFloat(), "Wins"))
@@ -141,10 +131,7 @@ class DetailsMainFragment : Fragment() {
         dataSet.valueFormatter = MyValueFormatter()
 
         return PieData(dataSet)
-
-
     }
-
 
     private fun initChart(chart : PieChart, queue: String){
         chart.setTouchEnabled(false)
@@ -156,13 +143,11 @@ class DetailsMainFragment : Fragment() {
         chart.isDrawHoleEnabled = false
     }
 
-
     inner class MyValueFormatter : ValueFormatter() {
         private val format = DecimalFormat("#")
         override fun getPieLabel(value: Float, pieEntry: PieEntry?): String {
             return format.format(pieEntry?.y)
         }
-        // ... override other methods for the other chart types
     }
 
 }
