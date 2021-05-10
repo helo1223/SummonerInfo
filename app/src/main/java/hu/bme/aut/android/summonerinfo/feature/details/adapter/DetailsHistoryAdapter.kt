@@ -9,22 +9,17 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.annotation.Nullable
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import hu.bme.aut.android.summonerinfo.R
 import hu.bme.aut.android.summonerinfo.feature.details.fragment.DetailsHistoryFragment
 import hu.bme.aut.android.summonerinfo.feature.details.fragment.data.HistoryContent
 
-
 class DetailsHistoryAdapter(
     private val historyEntries: List<HistoryContent.HistoryItem>,
-    private val fragment: DetailsHistoryFragment
-)
+    private val fragment: DetailsHistoryFragment)
     : RecyclerView.Adapter<DetailsHistoryAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -35,96 +30,35 @@ class DetailsHistoryAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = historyEntries[position]
-        fragment.loadImage(
-            "https://ddragon.leagueoflegends.com/cdn/11.9.1/img/champion/",
-            item.player.championName!!,
-            holder.championImageView
-        )
+        fragment.loadImage("https://ddragon.leagueoflegends.com/cdn/11.9.1/img/champion/",item.player.championName!!,holder.championImageView)
         holder.championNameTextView.text = item.player.championName
         holder.gameModeTextView.text = item.matchDto.info!!.gameMode
-        holder.kdaTextView.text = fragment.getString(
-            R.string.kda,
-            item.player.kills,
-            item.player.deaths,
-            item.player.assists
-        )
+        holder.kdaTextView.text = fragment.getString(R.string.kda,item.player.kills,item.player.deaths,item.player.assists)
         if(item.player.win!!){
-            holder.winTextView.text = fragment.getString(R.string.result, "Victory")
-            holder.winTextView.setTextColor(Color.rgb(30, 130, 30))
-            holder.historyHorizontalLayout.setBackgroundColor(Color.rgb(0, 170, 255))
+            holder.winTextView.text = fragment.getString(R.string.result,"Victory")
+            holder.winTextView.setTextColor(Color.rgb(30,130,30))
+            holder.historyHorizontalLayout.setBackgroundColor(Color.rgb(0,170,255))
         }else{
-            holder.winTextView.text = fragment.getString(R.string.result, "Defeat")
-            holder.winTextView.setTextColor(Color.rgb(0, 0, 0))
-            holder.historyHorizontalLayout.setBackgroundColor(Color.rgb(255, 68, 68))
+            holder.winTextView.text = fragment.getString(R.string.result,"Defeat")
+            holder.winTextView.setTextColor(Color.rgb(0,0,0))
+            holder.historyHorizontalLayout.setBackgroundColor(Color.rgb(255,68,68))
         }
 
         if(item.player.championName=="FiddleSticks") item.player.championName="Fiddlesticks"
 
-        fragment.loadImage(
-            "https://ddragon.leagueoflegends.com/cdn/11.9.1/img/champion/",
-            item.player.championName!!,
-            holder.championImageView
-        )
-        fragment.loadImage(
-            "https://ddragon.leagueoflegends.com/cdn/11.9.1/img/spell/",
-            fragment.summonerSpellsMap[item.player.summoner1Id]!!,
-            holder.spell1ImageView
-        )
-        fragment.loadImage(
-            "https://ddragon.leagueoflegends.com/cdn/11.9.1/img/spell/",
-            fragment.summonerSpellsMap[item.player.summoner2Id]!!,
-            holder.spell2ImageView
-        )
+        fragment.loadImage("https://ddragon.leagueoflegends.com/cdn/11.9.1/img/champion/", item.player.championName!!, holder.championImageView)
+        fragment.loadImage("https://ddragon.leagueoflegends.com/cdn/11.9.1/img/spell/", fragment.summonerSpellsMap[item.player.summoner1Id]!!, holder.spell1ImageView)
+        fragment.loadImage("https://ddragon.leagueoflegends.com/cdn/11.9.1/img/spell/", fragment.summonerSpellsMap[item.player.summoner2Id]!!, holder.spell2ImageView)
 
+        fragment.loadImage("https://ddragon.leagueoflegends.com/cdn/11.9.1/img/item/", item.player.item0.toString(), holder.item0ImageView)
+        fragment.loadImage("https://ddragon.leagueoflegends.com/cdn/11.9.1/img/item/", item.player.item1.toString(), holder.item1ImageView)
+        fragment.loadImage("https://ddragon.leagueoflegends.com/cdn/11.9.1/img/item/", item.player.item2.toString(), holder.item2ImageView)
+        fragment.loadImage("https://ddragon.leagueoflegends.com/cdn/11.9.1/img/item/", item.player.item3.toString(), holder.item3ImageView)
+        fragment.loadImage("https://ddragon.leagueoflegends.com/cdn/11.9.1/img/item/", item.player.item4.toString(), holder.item4ImageView)
+        fragment.loadImage("https://ddragon.leagueoflegends.com/cdn/11.9.1/img/item/", item.player.item5.toString(), holder.item5ImageView)
+        fragment.loadImage("https://ddragon.leagueoflegends.com/cdn/11.9.1/img/item/", item.player.item6.toString(), holder.item6ImageView)
+        
 
-        var itemIds = listOf<Int>(
-            item.player.item0,
-            item.player.item1,
-            item.player.item2,
-            item.player.item3,
-            item.player.item4,
-            item.player.item5,
-            item.player.item6
-        )
-        var itemViews = listOf<ImageView>(
-            holder.item0ImageView,
-            holder.item1ImageView,
-            holder.item2ImageView,
-            holder.item3ImageView,
-            holder.item4ImageView,
-            holder.item5ImageView,
-            holder.item6ImageView
-        )
-
-
-        for(i in 0..6){
-                Glide.with(fragment).load("https://ddragon.leagueoflegends.com/cdn/11.9.1/img/item/"+itemIds[i]+".png")
-                    .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                    .error(0)
-                    .listener(object : RequestListener<Drawable?> {
-                        override fun onLoadFailed(
-                            @Nullable e: GlideException?,
-                            model: Any?,
-                            target: Target<Drawable?>?,
-                            isFirstResource: Boolean
-                        ): Boolean {
-                            println("onLoadFailed")
-                            return false
-                        }
-
-                        override fun onResourceReady(
-                            resource: Drawable?,
-                            model: Any?,
-                            target: Target<Drawable?>?,
-                            dataSource: DataSource?,
-                            isFirstResource: Boolean
-                        ): Boolean {
-                            println("onResourceReady")
-                            return false
-                        }
-                    }).into(itemViews[i])
-
-        }
     }
 
     override fun getItemCount(): Int = historyEntries.size

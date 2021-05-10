@@ -129,6 +129,9 @@ class DetailsActivity : AppCompatActivity(), ProfileDataHolder {
 
     private fun displayProfile(receivedProfile: Profile?) {
         profile = receivedProfile
+
+        val detailsPagerAdapter = DetailsPagerAdapter(this)
+        binding.mainViewPager.adapter = detailsPagerAdapter
     }
 
 
@@ -172,6 +175,9 @@ class DetailsActivity : AppCompatActivity(), ProfileDataHolder {
         if(leagues.isNotEmpty() && leagues[0].queueType!="RANKED_SOLO_5x5"){
             leagues = leagues.reversed()
         }
+
+        val detailsPagerAdapter = DetailsPagerAdapter(this)
+        binding.mainViewPager.adapter = detailsPagerAdapter
     }
 
     private fun loadMatches() {
