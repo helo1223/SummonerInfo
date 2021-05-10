@@ -17,7 +17,7 @@ class DetailsHistoryFragment : Fragment() {
 
     private lateinit var binding : FragmentDetailsMoreBinding
 
-    public var summonerSpellsMap : HashMap<Int, String> = HashMap()
+    var summonerSpellsMap : HashMap<Int, String> = HashMap()
 
     private var profileDataHolder: ProfileDataHolder? = null
 

@@ -2,7 +2,6 @@ package hu.bme.aut.android.summonerinfo.feature.summoner
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,8 +31,8 @@ class SummonerActivity : AppCompatActivity(), SummonerAdapter.OnSummonerSelected
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode==1){
-            var correctName = data!!.extras!!.get("SummonerName").toString()
-            var oldName = data!!.extras!!.get("oldName").toString()
+            val correctName = data!!.extras!!.get("SummonerName").toString()
+            val oldName = data.extras!!.get("oldName").toString()
             adapter.renameSummonerEntry(adapter.getSummonerPosition(oldName), correctName)
         }else{
             adapter.removeSummoner(adapter.getSummonerPosition(data!!.extras?.get("SummonerName").toString()))
@@ -62,9 +61,5 @@ class SummonerActivity : AppCompatActivity(), SummonerAdapter.OnSummonerSelected
 
     override fun onSummonerAdded(summoner: String?) {
         adapter.addSummoner(summoner!!)
-    }
-
-    public fun ShowText(text : String){
-        Toast.makeText(this@SummonerActivity, text, Toast.LENGTH_SHORT).show()
     }
 }

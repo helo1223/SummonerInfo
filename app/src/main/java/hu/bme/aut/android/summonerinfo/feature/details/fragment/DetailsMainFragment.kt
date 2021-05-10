@@ -1,7 +1,6 @@
 package hu.bme.aut.android.summonerinfo.feature.details.fragment
 
 import android.graphics.Color
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -101,7 +100,7 @@ class DetailsMainFragment : Fragment() {
         }
     }
 
-    fun getEmblem(tier : String) : Int{
+    private fun getEmblem(tier : String) : Int{
         when (tier) {
             "IRON" -> return R.drawable.emblem_iron
             "BRONZE" -> return R.drawable.emblem_bronze

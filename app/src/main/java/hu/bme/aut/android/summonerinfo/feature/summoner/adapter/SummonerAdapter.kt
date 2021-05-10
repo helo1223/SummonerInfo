@@ -49,7 +49,7 @@ class SummonerAdapter(private val listener: OnSummonerSelectedListener) : Recycl
         return index
     }
 
-    inner class SummonerViewHolder(val binding: ItemSummonerBinding) :
+    inner class SummonerViewHolder(private val binding: ItemSummonerBinding) :
         RecyclerView.ViewHolder(binding.root) {
         private var item: String? = null
 
