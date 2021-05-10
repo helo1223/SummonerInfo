@@ -174,7 +174,7 @@ class DetailsActivity : AppCompatActivity(), ProfileDataHolder {
 
         leagues = receivedLeagues
 
-        if(leagues!=null || leagues!![0].queueType!="RANKED_SOLO_5x5"){
+        if(leagues!!.isNotEmpty() && leagues!![0].queueType!="RANKED_SOLO_5x5"){
             leagues = leagues!!.reversed()
         }
 
