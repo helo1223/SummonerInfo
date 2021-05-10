@@ -7,4 +7,12 @@ class MatchInfo{
     var mapId: Int = 0
     var participants: List<MatchParticipant>? = null
 
+    fun findPlayerIndex(summonerId: String): MatchParticipant {
+        for (participant in participants!!) {
+            if(participant.summonerId == summonerId.toString()){
+                return participant
+            }
+        }
+        return participants!![0]
+    }
 }
