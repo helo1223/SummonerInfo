@@ -13,7 +13,7 @@ object NetworkManager {
     private val riotApi: RiotApi
 
     private var SERVICE_URL = "https://eun1.api.riotgames.com"
-    private const val API_KEY = "RGAPI-d53e9404-0980-4cd7-b0c4-284f1bb87c1a"
+    private const val API_KEY = "YOUR API KEY"
 
     init {
         retrofit = Retrofit.Builder()
