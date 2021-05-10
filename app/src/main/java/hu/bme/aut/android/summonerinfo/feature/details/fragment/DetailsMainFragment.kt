@@ -53,9 +53,7 @@ class DetailsMainFragment : Fragment() {
 
         if (profileDataHolder!!.getProfile() != null) {
             displayProfile()
-            if(profileDataHolder!!.getLeagues() != null){
-                displayLeagues()
-            }
+            displayLeagues()
         }
 
     }
@@ -73,7 +71,7 @@ class DetailsMainFragment : Fragment() {
         val league = profileDataHolder!!.getLeagues()
 
 
-        if(league!!.isNotEmpty()) {
+        if(league.isNotEmpty()) {
             binding.leagueSOLOTEXT.text = getString(R.string.league, league[0].tier, league[0].rank, league[0].leaguePoints.toString()+"lp")
             binding.leagueSOLOWinLoss.text = getString(R.string.winloss, league[0].wins.toString(), league[0].losses.toString())
 

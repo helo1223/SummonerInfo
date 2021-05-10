@@ -11,7 +11,6 @@ import hu.bme.aut.android.summonerinfo.R
 import hu.bme.aut.android.summonerinfo.databinding.ActivityDetailsBinding
 import hu.bme.aut.android.summonerinfo.feature.details.adapter.DetailsPagerAdapter
 import hu.bme.aut.android.summonerinfo.model.League
-import hu.bme.aut.android.summonerinfo.model.MatchDto
 import hu.bme.aut.android.summonerinfo.model.Profile
 import hu.bme.aut.android.summonerinfo.network.NetworkManager
 import retrofit2.Call
@@ -22,9 +21,8 @@ class DetailsActivity : AppCompatActivity(), ProfileDataHolder {
 
 
     private var profile: Profile? = null
-    private var leagues: List<League>? = null
-    private var matchIds: List<String>? = null
-    private var matchDtos: ArrayList<MatchDto> = ArrayList()
+    private var leagues: List<League> = ArrayList()
+    private var matchIds: List<String> = ArrayList()
 
 
     private lateinit var binding: ActivityDetailsBinding
@@ -60,6 +58,7 @@ class DetailsActivity : AppCompatActivity(), ProfileDataHolder {
             tab.text = when(position) {
                 0 -> getString(R.string.main)
                 1 -> getString(R.string.details)
+                2 -> getString(R.string.mastery)
                 else -> ""
             }
         }.attach()
@@ -76,14 +75,13 @@ class DetailsActivity : AppCompatActivity(), ProfileDataHolder {
     }
 
     override fun getProfile(): Profile? = profile
-    override fun getLeagues(): List<League>? = leagues
-    override fun getMatches(): List<String>? = matchIds
-    override fun getMatchDtos(): List<MatchDto> = matchDtos
+    override fun getLeagues(): List<League> = leagues
+    override fun getMatches(): List<String> = matchIds
 
 
     private fun loadProfile(){
 
-        NetworkManager.getSummoner(summoner)!!.enqueue(object : Callback<Profile?> {
+        NetworkManager.getSummoner(summoner!!).enqueue(object : Callback<Profile?> {
 
             override fun onResponse(
                 call: Call<Profile?>,
@@ -94,6 +92,7 @@ class DetailsActivity : AppCompatActivity(), ProfileDataHolder {
                     displayProfile(response.body())
                     loadLeagues()
                     loadMatches()
+
                     supportActionBar!!.title = getString(R.string.profile, profile!!.name)
                     data.putExtra("SummonerName", profile!!.name)
                     data.putExtra("oldName", summoner)
@@ -129,24 +128,20 @@ class DetailsActivity : AppCompatActivity(), ProfileDataHolder {
     }
 
     private fun displayProfile(receivedProfile: Profile?) {
-
         profile = receivedProfile
-
-        val detailsPagerAdapter = DetailsPagerAdapter(this)
-        binding.mainViewPager.adapter = detailsPagerAdapter
     }
 
 
     private fun loadLeagues(){
-        NetworkManager.getLeagues(profile!!.id)!!.enqueue(object : Callback<List<League>?> {
+        NetworkManager.getLeagues(profile!!.id!!).enqueue(object : Callback<List<League>> {
 
             override fun onResponse(
-                call: Call<List<League>?>,
-                response: Response<List<League>?>
+                call: Call<List<League>>,
+                response: Response<List<League>>
             ) {
                 Log.d(TAG, "onResponse: " + response.code())
                 if (response.isSuccessful) {
-                    displayLeagues(response.body())
+                    displayLeagues(response.body()!!)
                 } else {
                     Toast.makeText(
                         this@DetailsActivity,
@@ -157,7 +152,7 @@ class DetailsActivity : AppCompatActivity(), ProfileDataHolder {
             }
 
             override fun onFailure(
-                call: Call<List<League>?>,
+                call: Call<List<League>>,
                 throwable: Throwable
             ) {
                 throwable.printStackTrace()
@@ -170,35 +165,30 @@ class DetailsActivity : AppCompatActivity(), ProfileDataHolder {
         })
     }
 
-    private fun displayLeagues(receivedLeagues: List<League>?) {
+    private fun displayLeagues(receivedLeagues: List<League>) {
 
         leagues = receivedLeagues
 
-        if(leagues!!.isNotEmpty() && leagues!![0].queueType!="RANKED_SOLO_5x5"){
-            leagues = leagues!!.reversed()
+        if(leagues.isNotEmpty() && leagues[0].queueType!="RANKED_SOLO_5x5"){
+            leagues = leagues.reversed()
         }
-
-
-        val detailsPagerAdapter = DetailsPagerAdapter(this)
-        binding.mainViewPager.adapter = detailsPagerAdapter
     }
-
 
     private fun loadMatches() {
 
-        NetworkManager.getLastNMatches(profile!!.puuid).enqueue(object : Callback<List<String>?> {
+        NetworkManager.getLastNMatches(profile!!.puuid!!).enqueue(object : Callback<List<String>> {
             override fun onResponse(
-                call: Call<List<String>?>,
-                response: Response<List<String>?>
+                call: Call<List<String>>,
+                response: Response<List<String>>
             ) {
                 Log.d(TAG, "onResponse: " + response.code())
                 if (response.isSuccessful) {
-                    displayMatches(response.body())
+                    displayMatches(response.body()!!)
                 }
             }
 
             override fun onFailure(
-                call: Call<List<String>?>,
+                call: Call<List<String>>,
                 throwable: Throwable
             ) {
 
@@ -212,50 +202,15 @@ class DetailsActivity : AppCompatActivity(), ProfileDataHolder {
         })
     }
 
-    private fun displayMatches(receivedMatches: List<String>?) {
+    private fun displayMatches(receivedMatches: List<String>) {
         matchIds = receivedMatches
-
-        receivedMatches!!.forEach { loadMatch(it) }
 
         val detailsPagerAdapter = DetailsPagerAdapter(this)
         binding.mainViewPager.adapter = detailsPagerAdapter
-
     }
 
 
-    private fun loadMatch(matchId: String) {
-        NetworkManager.getMMatches(matchId)!!.enqueue(object : Callback<MatchDto?> {
-            override fun onResponse(
-                call: Call<MatchDto?>,
-                response: Response<MatchDto?>
-            ) {
-                Log.d(TAG, "onResponse: " + response.code())
-                if (response.isSuccessful) {
-                    displayMatch(response.body())
-                }
-            }
 
-            override fun onFailure(
-                call: Call<MatchDto?>,
-                throwable: Throwable
-            ) {
-
-                throwable.printStackTrace()
-                Toast.makeText(
-                    this@DetailsActivity,
-                    "Network request error occurred, check LOG",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        })
-    }
-
-    private fun displayMatch(receivedMatchDto: MatchDto?) {
-        if (receivedMatchDto != null) {
-            matchDtos.add(receivedMatchDto)
-            matchDtos.sortByDescending {it.info!!.gameCreation}
-        }
-    }
 
 
 

@@ -6,7 +6,6 @@ import hu.bme.aut.android.summonerinfo.model.Profile
 
 interface ProfileDataHolder {
     fun getProfile(): Profile?
-    fun getLeagues(): List<League>?
-    fun getMatches(): List<String>?
-    fun getMatchDtos(): List<MatchDto?>?
+    fun getLeagues(): List<League>
+    fun getMatches(): List<String>
 }
