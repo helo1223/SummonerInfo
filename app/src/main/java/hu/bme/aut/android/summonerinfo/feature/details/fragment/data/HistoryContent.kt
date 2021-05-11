@@ -7,7 +7,6 @@ import java.util.ArrayList
 
 object HistoryContent {
 
-
     val ITEMS: ArrayList<HistoryItem> = ArrayList()
 
     private fun addItem(item: HistoryItem) {

@@ -14,7 +14,6 @@ class MatchParticipant{
     var item5: Int = 0
     var item6: Int = 0
     var kills: Int = 0
-    var role: String? = null
     var summoner1Id: Int = 0
     var summoner2Id: Int = 0
     var summonerId: String? = null
