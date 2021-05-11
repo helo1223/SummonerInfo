@@ -1,8 +1,6 @@
 package hu.bme.aut.android.summonerinfo.feature.details.adapter
 
-import android.graphics.Bitmap
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,10 +8,8 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
 import hu.bme.aut.android.summonerinfo.R
+import hu.bme.aut.android.summonerinfo.feature.details.Helper
 import hu.bme.aut.android.summonerinfo.feature.details.fragment.DetailsHistoryFragment
 import hu.bme.aut.android.summonerinfo.feature.details.fragment.data.HistoryContent
 
@@ -30,8 +26,7 @@ class DetailsHistoryAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = historyEntries[position]
-        fragment.loadImage("https://ddragon.leagueoflegends.com/cdn/11.9.1/img/champion/",item.player.championName!!,holder.championImageView)
-        holder.championNameTextView.text = item.player.championName
+        holder.championNameTextView.text = fragment.getString(R.string.champ, Helper.championNamesMap[item.player.championId], item.player.champLevel)
         holder.gameModeTextView.text = item.matchDto.info!!.gameMode
         holder.kdaTextView.text = fragment.getString(R.string.kda,item.player.kills,item.player.deaths,item.player.assists)
         if(item.player.win!!){
@@ -46,18 +41,18 @@ class DetailsHistoryAdapter(
 
         if(item.player.championName=="FiddleSticks") item.player.championName="Fiddlesticks"
 
-        fragment.loadImage("https://ddragon.leagueoflegends.com/cdn/11.9.1/img/champion/", item.player.championName!!, holder.championImageView)
-        fragment.loadImage("https://ddragon.leagueoflegends.com/cdn/11.9.1/img/spell/", fragment.summonerSpellsMap[item.player.summoner1Id]!!, holder.spell1ImageView)
-        fragment.loadImage("https://ddragon.leagueoflegends.com/cdn/11.9.1/img/spell/", fragment.summonerSpellsMap[item.player.summoner2Id]!!, holder.spell2ImageView)
 
-        fragment.loadImage("https://ddragon.leagueoflegends.com/cdn/11.9.1/img/item/", item.player.item0.toString(), holder.item0ImageView)
-        fragment.loadImage("https://ddragon.leagueoflegends.com/cdn/11.9.1/img/item/", item.player.item1.toString(), holder.item1ImageView)
-        fragment.loadImage("https://ddragon.leagueoflegends.com/cdn/11.9.1/img/item/", item.player.item2.toString(), holder.item2ImageView)
-        fragment.loadImage("https://ddragon.leagueoflegends.com/cdn/11.9.1/img/item/", item.player.item3.toString(), holder.item3ImageView)
-        fragment.loadImage("https://ddragon.leagueoflegends.com/cdn/11.9.1/img/item/", item.player.item4.toString(), holder.item4ImageView)
-        fragment.loadImage("https://ddragon.leagueoflegends.com/cdn/11.9.1/img/item/", item.player.item5.toString(), holder.item5ImageView)
-        fragment.loadImage("https://ddragon.leagueoflegends.com/cdn/11.9.1/img/item/", item.player.item6.toString(), holder.item6ImageView)
-        
+        Helper.loadImage(fragment,"https://ddragon.leagueoflegends.com/cdn/11.9.1/img/champion/", item.player.championName!!, holder.championImageView)
+        Helper.loadImage(fragment,"https://ddragon.leagueoflegends.com/cdn/11.9.1/img/spell/", fragment.summonerSpellsMap[item.player.summoner1Id]!!, holder.spell1ImageView)
+        Helper.loadImage(fragment,"https://ddragon.leagueoflegends.com/cdn/11.9.1/img/spell/", fragment.summonerSpellsMap[item.player.summoner2Id]!!, holder.spell2ImageView)
+
+        Helper.loadImage(fragment,"https://ddragon.leagueoflegends.com/cdn/11.9.1/img/item/", item.player.item0.toString(), holder.item0ImageView)
+        Helper.loadImage(fragment,"https://ddragon.leagueoflegends.com/cdn/11.9.1/img/item/", item.player.item1.toString(), holder.item1ImageView)
+        Helper.loadImage(fragment,"https://ddragon.leagueoflegends.com/cdn/11.9.1/img/item/", item.player.item2.toString(), holder.item2ImageView)
+        Helper.loadImage(fragment,"https://ddragon.leagueoflegends.com/cdn/11.9.1/img/item/", item.player.item3.toString(), holder.item3ImageView)
+        Helper.loadImage(fragment,"https://ddragon.leagueoflegends.com/cdn/11.9.1/img/item/", item.player.item4.toString(), holder.item4ImageView)
+        Helper.loadImage(fragment,"https://ddragon.leagueoflegends.com/cdn/11.9.1/img/item/", item.player.item5.toString(), holder.item5ImageView)
+        Helper.loadImage(fragment,"https://ddragon.leagueoflegends.com/cdn/11.9.1/img/item/", item.player.item6.toString(), holder.item6ImageView)
 
     }
 

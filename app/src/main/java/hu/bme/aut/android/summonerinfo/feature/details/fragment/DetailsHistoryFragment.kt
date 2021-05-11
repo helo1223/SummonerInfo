@@ -6,20 +6,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import hu.bme.aut.android.summonerinfo.R
 import hu.bme.aut.android.summonerinfo.feature.details.ProfileDataHolder
 import hu.bme.aut.android.summonerinfo.feature.details.adapter.DetailsHistoryAdapter
 import hu.bme.aut.android.summonerinfo.feature.details.fragment.data.HistoryContent
 import hu.bme.aut.android.summonerinfo.model.MatchDto
-import hu.bme.aut.android.summonerinfo.model.MatchParticipant
 import hu.bme.aut.android.summonerinfo.network.NetworkManager
 import retrofit2.Call
 import retrofit2.Callback
@@ -41,6 +37,12 @@ class DetailsHistoryFragment : Fragment() {
         } else {
             throw RuntimeException("Activity must implement ProfileDataHolder interface!")
         }
+
+        vAdapter = DetailsHistoryAdapter(HistoryContent.ITEMS, this)
+
+        HistoryContent.clearMatches()
+        profileDataHolder!!.getMatches().forEach { loadMatch(it); vAdapter!!.notifyDataSetChanged() }
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -55,23 +57,12 @@ class DetailsHistoryFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = DetailsHistoryAdapter(HistoryContent.ITEMS, getFragment())
-                vAdapter = adapter as DetailsHistoryAdapter
+                adapter = vAdapter
             }
         }
-        HistoryContent.clearMatches()
 
-        profileDataHolder!!.getMatches().forEach { loadMatch(it); vAdapter!!.notifyDataSetChanged() }
 
         return view
-    }
-
-
-    fun loadImage(url: String, param: String, target: ImageView){
-        Glide.with(this)
-            .load("$url$param.png")
-            .transition(DrawableTransitionOptions().crossFade())
-            .into(target)
     }
 
     private fun initSpellMap(){
@@ -86,10 +77,6 @@ class DetailsHistoryFragment : Fragment() {
         summonerSpellsMap[14] = "SummonerDot"
         summonerSpellsMap[21] = "SummonerBarrier"
         summonerSpellsMap[32] = "SummonerSnowball"
-    }
-
-    private fun getFragment() : DetailsHistoryFragment{
-        return this
     }
 
     private fun loadMatch(matchId: String) {
