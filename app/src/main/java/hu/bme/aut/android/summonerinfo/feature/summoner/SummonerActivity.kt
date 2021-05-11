@@ -2,6 +2,7 @@ package hu.bme.aut.android.summonerinfo.feature.summoner
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -60,6 +61,12 @@ class SummonerActivity : AppCompatActivity(), SummonerAdapter.OnSummonerSelected
     }
 
     override fun onSummonerAdded(summoner: String?) {
-        adapter.addSummoner(summoner!!)
+        if(!adapter.addSummoner(summoner!!)){
+            Toast.makeText(
+                this@SummonerActivity,
+                "Invalid Summoner Name!",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 }
