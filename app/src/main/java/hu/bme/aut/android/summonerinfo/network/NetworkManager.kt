@@ -1,8 +1,8 @@
 package hu.bme.aut.android.summonerinfo.network
 
-import hu.bme.aut.android.summonerinfo.model.League
-import hu.bme.aut.android.summonerinfo.model.MatchDto
-import hu.bme.aut.android.summonerinfo.model.Profile
+import com.google.gson.JsonObject
+import com.google.gson.JsonPrimitive
+import hu.bme.aut.android.summonerinfo.model.*
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -24,19 +24,28 @@ object NetworkManager {
         riotApi = retrofit.create(RiotApi::class.java)
     }
 
-    fun getSummoner(summonerName: String?): Call<Profile>? {
+    fun getSummoner(summonerName: String): Call<Profile> {
         return riotApi.getSummonerByName(summonerName, API_KEY)
     }
 
-    fun getLeagues(encryptedSummonerId: String?): Call<List<League>>? {
+    fun getLeagues(encryptedSummonerId: String): Call<List<League>> {
         return riotApi.getLeaguesByEncryptedSummonerId(encryptedSummonerId, API_KEY)
     }
 
-    fun getLastNMatches(puuid: String?): Call<List<String>>{
-        return riotApi.getMatchesByPuuid(puuid, 15, API_KEY)
+    fun getLastNMatches(puuid: String): Call<List<String>>{
+        return riotApi.getMatchesByPuuid(puuid, 20, API_KEY)
     }
 
-    fun getMMatches(matchId: String?) :Call<MatchDto>?{
+    fun getMMatches(matchId: String) :Call<MatchDto>{
         return riotApi.getMatchByMatchId(matchId, API_KEY)
     }
+
+    fun getChampionNameList() : Call<JsonObject>{
+        return riotApi.getChampionNameList()
+    }
+
+    fun getSummonerMasteries(encryptedSummonerId: String) : Call<List<ChampionMasteryDto>>{
+        return riotApi.getSummonerMasteries(encryptedSummonerId, API_KEY)
+    }
+
 }

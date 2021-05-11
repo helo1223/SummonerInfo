@@ -1,8 +1,8 @@
 package hu.bme.aut.android.summonerinfo.network
 
-import hu.bme.aut.android.summonerinfo.model.League
-import hu.bme.aut.android.summonerinfo.model.MatchDto
-import hu.bme.aut.android.summonerinfo.model.Profile
+import com.google.gson.JsonObject
+import com.google.gson.JsonPrimitive
+import hu.bme.aut.android.summonerinfo.model.*
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -36,4 +36,14 @@ interface RiotApi {
             @Path("matchId") matchId: String,
             @Query("api_key") api_key: String
     ): Call<MatchDto>
+
+
+    @GET("https://ddragon.leagueoflegends.com/cdn/11.9.1/data/en_US/champion.json")
+    fun getChampionNameList(): Call<JsonObject>
+
+    @GET("https://eun1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/{encryptedSummonerId}")
+    fun getSummonerMasteries(
+            @Path("encryptedSummonerId") encryptedSummonerId: String,
+            @Query("api_key") api_key: String
+    ): Call<List<ChampionMasteryDto>>
 }

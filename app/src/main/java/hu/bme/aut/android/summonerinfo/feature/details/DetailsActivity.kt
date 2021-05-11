@@ -1,5 +1,6 @@
 package hu.bme.aut.android.summonerinfo.feature.details
 
+import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +8,8 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import hu.bme.aut.android.summonerinfo.R
 import hu.bme.aut.android.summonerinfo.databinding.ActivityDetailsBinding
 import hu.bme.aut.android.summonerinfo.feature.details.adapter.DetailsPagerAdapter
@@ -23,7 +26,6 @@ class DetailsActivity : AppCompatActivity(), ProfileDataHolder {
     private var profile: Profile? = null
     private var leagues: List<League> = ArrayList()
     private var matchIds: List<String> = ArrayList()
-
 
     private lateinit var binding: ActivityDetailsBinding
 
@@ -42,9 +44,9 @@ class DetailsActivity : AppCompatActivity(), ProfileDataHolder {
         binding = ActivityDetailsBinding.inflate(layoutInflater)
         summoner = intent.getStringExtra(EXTRA_SUMMONER_NAME)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        loadChampionNames()
         loadProfile()
         setContentView(binding.root)
-
     }
 
     override fun onResume() {
@@ -78,6 +80,43 @@ class DetailsActivity : AppCompatActivity(), ProfileDataHolder {
     override fun getLeagues(): List<League> = leagues
     override fun getMatches(): List<String> = matchIds
 
+    private fun loadChampionNames(){
+
+        NetworkManager.getChampionNameList().enqueue(object : Callback<JsonObject> {
+
+            override fun onResponse(
+                    call: Call<JsonObject>,
+                    response: Response<JsonObject>
+            ) {
+                Log.d(ContentValues.TAG, "onResponse: " + response.code())
+                if (response.isSuccessful) {
+
+                    val allData: JsonObject = JsonParser().parse(response.body().toString()).asJsonObject
+                    val champions = allData.getAsJsonObject("data")
+                    val entries = champions.entrySet()
+                    for(cEntry in entries){
+                        var champion = cEntry.value.asJsonObject
+                        Helper.championNamesMap[champion["key"].asInt] = champion["name"].asString
+                    }
+
+
+
+                }
+            }
+
+            override fun onFailure(
+                    call: Call<JsonObject>,
+                    throwable: Throwable
+            ) {
+                throwable.printStackTrace()
+                Toast.makeText(
+                        this@DetailsActivity,
+                        "Network request error occurred, check LOG",
+                        Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
+    }
 
     private fun loadProfile(){
 
