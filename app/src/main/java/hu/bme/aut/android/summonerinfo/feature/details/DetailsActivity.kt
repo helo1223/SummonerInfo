@@ -57,7 +57,7 @@ class DetailsActivity : AppCompatActivity(), ProfileDataHolder {
         binding.mainViewPager.adapter = detailsPagerAdapter
 
         TabLayoutMediator(binding.tabLayout, binding.mainViewPager) { tab, position ->
-            tab.text = when(position) {
+            tab.text = when (position) {
                 0 -> getString(R.string.main)
                 1 -> getString(R.string.details)
                 2 -> getString(R.string.mastery)
@@ -80,7 +80,7 @@ class DetailsActivity : AppCompatActivity(), ProfileDataHolder {
     override fun getLeagues(): List<League> = leagues
     override fun getMatches(): List<String> = matchIds
 
-    private fun loadChampionNames(){
+    private fun loadChampionNames() {
 
         NetworkManager.getChampionNameList().enqueue(object : Callback<JsonObject> {
 
@@ -94,11 +94,10 @@ class DetailsActivity : AppCompatActivity(), ProfileDataHolder {
                     val allData: JsonObject = JsonParser().parse(response.body().toString()).asJsonObject
                     val champions = allData.getAsJsonObject("data")
                     val entries = champions.entrySet()
-                    for(cEntry in entries){
+                    for (cEntry in entries) {
                         var champion = cEntry.value.asJsonObject
                         Helper.championNamesMap[champion["key"].asInt] = champion["name"].asString
                     }
-
 
 
                 }
@@ -118,13 +117,13 @@ class DetailsActivity : AppCompatActivity(), ProfileDataHolder {
         })
     }
 
-    private fun loadProfile(){
+    private fun loadProfile() {
 
         NetworkManager.getSummoner(summoner!!).enqueue(object : Callback<Profile?> {
 
             override fun onResponse(
-                call: Call<Profile?>,
-                response: Response<Profile?>
+                    call: Call<Profile?>,
+                    response: Response<Profile?>
             ) {
                 Log.d(TAG, "onResponse: " + response.code())
                 if (response.isSuccessful) {
@@ -135,31 +134,31 @@ class DetailsActivity : AppCompatActivity(), ProfileDataHolder {
                     supportActionBar!!.title = getString(R.string.profile, profile!!.name)
                     data.putExtra("SummonerName", profile!!.name)
                     data.putExtra("oldName", summoner)
-                    setResult(1,data)
+                    setResult(1, data)
 
 
                 } else {
                     Toast.makeText(
-                        this@DetailsActivity,
-                        "Profile error: " + response.message(),
-                        Toast.LENGTH_SHORT
+                            this@DetailsActivity,
+                            "Profile error: " + response.message(),
+                            Toast.LENGTH_SHORT
                     ).show()
                     data.putExtra("SummonerName", summoner)
-                    setResult(-1,data)
+                    setResult(-1, data)
                     finish()
 
                 }
             }
 
             override fun onFailure(
-                call: Call<Profile?>,
-                throwable: Throwable
+                    call: Call<Profile?>,
+                    throwable: Throwable
             ) {
                 throwable.printStackTrace()
                 Toast.makeText(
-                    this@DetailsActivity,
-                    "Network request error occurred, check LOG",
-                    Toast.LENGTH_SHORT
+                        this@DetailsActivity,
+                        "Network request error occurred, check LOG",
+                        Toast.LENGTH_SHORT
                 ).show()
                 finish()
             }
@@ -174,34 +173,34 @@ class DetailsActivity : AppCompatActivity(), ProfileDataHolder {
     }
 
 
-    private fun loadLeagues(){
+    private fun loadLeagues() {
         NetworkManager.getLeagues(profile!!.id!!).enqueue(object : Callback<List<League>> {
 
             override fun onResponse(
-                call: Call<List<League>>,
-                response: Response<List<League>>
+                    call: Call<List<League>>,
+                    response: Response<List<League>>
             ) {
                 Log.d(TAG, "onResponse: " + response.code())
                 if (response.isSuccessful) {
                     displayLeagues(response.body()!!)
                 } else {
                     Toast.makeText(
-                        this@DetailsActivity,
-                        "League Error: " + response.message(),
-                        Toast.LENGTH_SHORT
+                            this@DetailsActivity,
+                            "League Error: " + response.message(),
+                            Toast.LENGTH_SHORT
                     ).show()
                 }
             }
 
             override fun onFailure(
-                call: Call<List<League>>,
-                throwable: Throwable
+                    call: Call<List<League>>,
+                    throwable: Throwable
             ) {
                 throwable.printStackTrace()
                 Toast.makeText(
-                    this@DetailsActivity,
-                    "Network request error occurred, check LOG",
-                    Toast.LENGTH_SHORT
+                        this@DetailsActivity,
+                        "Network request error occurred, check LOG",
+                        Toast.LENGTH_SHORT
                 ).show()
             }
         })
@@ -211,7 +210,7 @@ class DetailsActivity : AppCompatActivity(), ProfileDataHolder {
 
         leagues = receivedLeagues
 
-        if(leagues.isNotEmpty() && leagues[0].queueType!="RANKED_SOLO_5x5"){
+        if (leagues.isNotEmpty() && leagues[0].queueType != "RANKED_SOLO_5x5") {
             leagues = leagues.reversed()
         }
 
@@ -223,8 +222,8 @@ class DetailsActivity : AppCompatActivity(), ProfileDataHolder {
 
         NetworkManager.getLastNMatches(profile!!.puuid!!).enqueue(object : Callback<List<String>> {
             override fun onResponse(
-                call: Call<List<String>>,
-                response: Response<List<String>>
+                    call: Call<List<String>>,
+                    response: Response<List<String>>
             ) {
                 Log.d(TAG, "onResponse: " + response.code())
                 if (response.isSuccessful) {
@@ -233,15 +232,15 @@ class DetailsActivity : AppCompatActivity(), ProfileDataHolder {
             }
 
             override fun onFailure(
-                call: Call<List<String>>,
-                throwable: Throwable
+                    call: Call<List<String>>,
+                    throwable: Throwable
             ) {
 
                 throwable.printStackTrace()
                 Toast.makeText(
-                    this@DetailsActivity,
-                    "Network request error occurred, check LOG",
-                    Toast.LENGTH_SHORT
+                        this@DetailsActivity,
+                        "Network request error occurred, check LOG",
+                        Toast.LENGTH_SHORT
                 ).show()
             }
         })
@@ -253,10 +252,6 @@ class DetailsActivity : AppCompatActivity(), ProfileDataHolder {
         val detailsPagerAdapter = DetailsPagerAdapter(this)
         binding.mainViewPager.adapter = detailsPagerAdapter
     }
-
-
-
-
 
 
 }

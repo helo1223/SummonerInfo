@@ -1,6 +1,6 @@
 package hu.bme.aut.android.summonerinfo.model
 
-class MatchParticipant{
+class MatchParticipant {
     var assists: Int = 0
     var champLevel: Int = 0
     var championId: Int = 0

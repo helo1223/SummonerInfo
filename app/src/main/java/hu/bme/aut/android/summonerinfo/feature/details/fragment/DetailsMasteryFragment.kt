@@ -36,7 +36,7 @@ class DetailsMasteryFragment : Fragment() {
 
     private var profileDataHolder: ProfileDataHolder? = null
 
-    private var vAdapter : DetailsMasteryAdapter? = null
+    private var vAdapter: DetailsMasteryAdapter? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,8 +52,8 @@ class DetailsMasteryFragment : Fragment() {
 
         MasteryContent.clearMasteries()
 
-        if(profileDataHolder!!.getProfile()!=null)
-        loadMasteries(profileDataHolder!!.getProfile()!!.id!!)
+        if (profileDataHolder!!.getProfile() != null)
+            loadMasteries(profileDataHolder!!.getProfile()!!.id!!)
 
     }
 
@@ -82,7 +82,7 @@ class DetailsMasteryFragment : Fragment() {
             ) {
                 Log.d(TAG, "onResponse: " + response.code())
                 if (response.isSuccessful) {
-                    response.body()!!.forEach { displayMastery(it); vAdapter!!.notifyDataSetChanged()}
+                    response.body()!!.forEach { displayMastery(it); vAdapter!!.notifyDataSetChanged() }
                 }
             }
 

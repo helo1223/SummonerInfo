@@ -32,23 +32,23 @@ class DetailsMasteryAdapter(
         var cName = holder.nameView.text.toString()
 
         when (cName) {
-            "Cho'Gath" -> cName ="Chogath"
-            "Vel'Koz" -> cName ="Velkoz"
-            "Kha'Zix" -> cName ="Khazix"
-            "Kai'Sa" -> cName ="Kaisa"
-            "Nunu & Willump" -> cName ="Nunu"
-            "LeBlanc" -> cName ="Leblanc"
-            "Wukong" -> cName ="MonkeyKing"
+            "Cho'Gath" -> cName = "Chogath"
+            "Vel'Koz" -> cName = "Velkoz"
+            "Kha'Zix" -> cName = "Khazix"
+            "Kai'Sa" -> cName = "Kaisa"
+            "Nunu & Willump" -> cName = "Nunu"
+            "LeBlanc" -> cName = "Leblanc"
+            "Wukong" -> cName = "MonkeyKing"
         }
 
-        Helper.loadImage(fragment, "https://ddragon.leagueoflegends.com/cdn/11.9.1/img/champion/",cNameReg.replace(cName, ""),holder.iconView)
+        Helper.loadImage(fragment, "https://ddragon.leagueoflegends.com/cdn/11.9.1/img/champion/", cNameReg.replace(cName, ""), holder.iconView)
         holder.levelView.text = item.championLevel.toString()
         var maxPoints = item.championPointsUntilNextLevel + item.championPointsSinceLastLevel
 
-        var toNextLevelString =  " ("+item.championPointsSinceLastLevel+"/"+maxPoints+")"
+        var toNextLevelString = " (" + item.championPointsSinceLastLevel + "/" + maxPoints + ")"
 
-        holder.pointsView.text = fragment.getString(R.string.masteryLevel,item.championPoints.toString() + (if (item.championLevel<5) toNextLevelString else ""))
-        var progress = (item.championPointsSinceLastLevel.toFloat() / maxPoints.toFloat())* 100
+        holder.pointsView.text = fragment.getString(R.string.masteryLevel, item.championPoints.toString() + (if (item.championLevel < 5) toNextLevelString else ""))
+        var progress = (item.championPointsSinceLastLevel.toFloat() / maxPoints.toFloat()) * 100
 
 
         holder.progressBar.progress = progress.toInt()

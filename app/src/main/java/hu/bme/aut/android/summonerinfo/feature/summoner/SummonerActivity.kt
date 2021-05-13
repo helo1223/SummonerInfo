@@ -31,11 +31,11 @@ class SummonerActivity : AppCompatActivity(), SummonerAdapter.OnSummonerSelected
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode==1){
+        if (resultCode == 1) {
             val correctName = data!!.extras!!.get("SummonerName").toString()
             val oldName = data.extras!!.get("oldName").toString()
             adapter.renameSummonerEntry(adapter.getSummonerPosition(oldName), correctName)
-        }else{
+        } else {
             adapter.removeSummoner(adapter.getSummonerPosition(data!!.extras?.get("SummonerName").toString()))
         }
     }
@@ -43,8 +43,8 @@ class SummonerActivity : AppCompatActivity(), SummonerAdapter.OnSummonerSelected
     private fun initFab() {
         binding.fab.setOnClickListener {
             AddSummonerDialogFragment()
-                .show(supportFragmentManager, AddSummonerDialogFragment::class.java.simpleName)
-            }
+                    .show(supportFragmentManager, AddSummonerDialogFragment::class.java.simpleName)
+        }
     }
 
     private fun initRecyclerView() {
@@ -61,11 +61,11 @@ class SummonerActivity : AppCompatActivity(), SummonerAdapter.OnSummonerSelected
     }
 
     override fun onSummonerAdded(summoner: String?) {
-        if(!adapter.addSummoner(summoner!!)){
+        if (!adapter.addSummoner(summoner!!)) {
             Toast.makeText(
-                this@SummonerActivity,
-                "Invalid Summoner Name!",
-                Toast.LENGTH_SHORT
+                    this@SummonerActivity,
+                    "Invalid Summoner Name!",
+                    Toast.LENGTH_SHORT
             ).show()
         }
     }

@@ -14,13 +14,13 @@ import hu.bme.aut.android.summonerinfo.feature.details.fragment.DetailsHistoryFr
 import hu.bme.aut.android.summonerinfo.feature.details.fragment.data.HistoryContent
 
 class DetailsHistoryAdapter(
-    private val historyEntries: List<HistoryContent.HistoryItem>,
-    private val fragment: DetailsHistoryFragment)
+        private val historyEntries: List<HistoryContent.HistoryItem>,
+        private val fragment: DetailsHistoryFragment)
     : RecyclerView.Adapter<DetailsHistoryAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_history, parent, false)
+                .inflate(R.layout.item_history, parent, false)
         return ViewHolder(view)
     }
 
@@ -28,31 +28,31 @@ class DetailsHistoryAdapter(
         val item = historyEntries[position]
         holder.championNameTextView.text = fragment.getString(R.string.champ, Helper.championNamesMap[item.player.championId], item.player.champLevel)
         holder.gameModeTextView.text = item.matchDto.info!!.gameMode
-        holder.kdaTextView.text = fragment.getString(R.string.kda,item.player.kills,item.player.deaths,item.player.assists)
-        if(item.player.win!!){
-            holder.winTextView.text = fragment.getString(R.string.result,"Victory")
-            holder.winTextView.setTextColor(Color.rgb(30,130,30))
-            holder.historyHorizontalLayout.setBackgroundColor(Color.rgb(0,170,255))
-        }else{
-            holder.winTextView.text = fragment.getString(R.string.result,"Defeat")
-            holder.winTextView.setTextColor(Color.rgb(0,0,0))
-            holder.historyHorizontalLayout.setBackgroundColor(Color.rgb(255,68,68))
+        holder.kdaTextView.text = fragment.getString(R.string.kda, item.player.kills, item.player.deaths, item.player.assists)
+        if (item.player.win!!) {
+            holder.winTextView.text = fragment.getString(R.string.result, "Victory")
+            holder.winTextView.setTextColor(Color.rgb(30, 130, 30))
+            holder.historyHorizontalLayout.setBackgroundColor(Color.rgb(0, 170, 255))
+        } else {
+            holder.winTextView.text = fragment.getString(R.string.result, "Defeat")
+            holder.winTextView.setTextColor(Color.rgb(0, 0, 0))
+            holder.historyHorizontalLayout.setBackgroundColor(Color.rgb(255, 68, 68))
         }
 
-        if(item.player.championName=="FiddleSticks") item.player.championName="Fiddlesticks"
+        if (item.player.championName == "FiddleSticks") item.player.championName = "Fiddlesticks"
 
 
-        Helper.loadImage(fragment,"https://ddragon.leagueoflegends.com/cdn/11.9.1/img/champion/", item.player.championName!!, holder.championImageView)
-        Helper.loadImage(fragment,"https://ddragon.leagueoflegends.com/cdn/11.9.1/img/spell/", fragment.summonerSpellsMap[item.player.summoner1Id]!!, holder.spell1ImageView)
-        Helper.loadImage(fragment,"https://ddragon.leagueoflegends.com/cdn/11.9.1/img/spell/", fragment.summonerSpellsMap[item.player.summoner2Id]!!, holder.spell2ImageView)
+        Helper.loadImage(fragment, "https://ddragon.leagueoflegends.com/cdn/11.9.1/img/champion/", item.player.championName!!, holder.championImageView)
+        Helper.loadImage(fragment, "https://ddragon.leagueoflegends.com/cdn/11.9.1/img/spell/", fragment.summonerSpellsMap[item.player.summoner1Id]!!, holder.spell1ImageView)
+        Helper.loadImage(fragment, "https://ddragon.leagueoflegends.com/cdn/11.9.1/img/spell/", fragment.summonerSpellsMap[item.player.summoner2Id]!!, holder.spell2ImageView)
 
-        Helper.loadImage(fragment,"https://ddragon.leagueoflegends.com/cdn/11.9.1/img/item/", item.player.item0.toString(), holder.item0ImageView)
-        Helper.loadImage(fragment,"https://ddragon.leagueoflegends.com/cdn/11.9.1/img/item/", item.player.item1.toString(), holder.item1ImageView)
-        Helper.loadImage(fragment,"https://ddragon.leagueoflegends.com/cdn/11.9.1/img/item/", item.player.item2.toString(), holder.item2ImageView)
-        Helper.loadImage(fragment,"https://ddragon.leagueoflegends.com/cdn/11.9.1/img/item/", item.player.item3.toString(), holder.item3ImageView)
-        Helper.loadImage(fragment,"https://ddragon.leagueoflegends.com/cdn/11.9.1/img/item/", item.player.item4.toString(), holder.item4ImageView)
-        Helper.loadImage(fragment,"https://ddragon.leagueoflegends.com/cdn/11.9.1/img/item/", item.player.item5.toString(), holder.item5ImageView)
-        Helper.loadImage(fragment,"https://ddragon.leagueoflegends.com/cdn/11.9.1/img/item/", item.player.item6.toString(), holder.item6ImageView)
+        Helper.loadImage(fragment, "https://ddragon.leagueoflegends.com/cdn/11.9.1/img/item/", item.player.item0.toString(), holder.item0ImageView)
+        Helper.loadImage(fragment, "https://ddragon.leagueoflegends.com/cdn/11.9.1/img/item/", item.player.item1.toString(), holder.item1ImageView)
+        Helper.loadImage(fragment, "https://ddragon.leagueoflegends.com/cdn/11.9.1/img/item/", item.player.item2.toString(), holder.item2ImageView)
+        Helper.loadImage(fragment, "https://ddragon.leagueoflegends.com/cdn/11.9.1/img/item/", item.player.item3.toString(), holder.item3ImageView)
+        Helper.loadImage(fragment, "https://ddragon.leagueoflegends.com/cdn/11.9.1/img/item/", item.player.item4.toString(), holder.item4ImageView)
+        Helper.loadImage(fragment, "https://ddragon.leagueoflegends.com/cdn/11.9.1/img/item/", item.player.item5.toString(), holder.item5ImageView)
+        Helper.loadImage(fragment, "https://ddragon.leagueoflegends.com/cdn/11.9.1/img/item/", item.player.item6.toString(), holder.item6ImageView)
 
     }
 

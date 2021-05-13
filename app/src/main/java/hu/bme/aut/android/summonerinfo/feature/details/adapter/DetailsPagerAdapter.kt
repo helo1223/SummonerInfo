@@ -7,16 +7,16 @@ import hu.bme.aut.android.summonerinfo.feature.details.fragment.DetailsHistoryFr
 import hu.bme.aut.android.summonerinfo.feature.details.fragment.DetailsMainFragment
 import hu.bme.aut.android.summonerinfo.feature.details.fragment.DetailsMasteryFragment
 
-class DetailsPagerAdapter(fa: FragmentActivity): FragmentStateAdapter(fa) {
+class DetailsPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
 
-    companion object{
+    companion object {
         private const val NUM_PAGES: Int = 3
     }
 
     override fun getItemCount(): Int = NUM_PAGES
 
     override fun createFragment(position: Int): Fragment {
-        return when(position){
+        return when (position) {
             0 -> DetailsMainFragment()
             1 -> DetailsHistoryFragment()
             2 -> DetailsMasteryFragment()

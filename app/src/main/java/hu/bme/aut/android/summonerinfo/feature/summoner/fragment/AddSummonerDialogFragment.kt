@@ -33,13 +33,13 @@ class AddSummonerDialogFragment : AppCompatDialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         _binding = DialogNewSummonerBinding.inflate(LayoutInflater.from(context))
         return AlertDialog.Builder(requireContext())
-            .setTitle(R.string.new_summoner)
-            .setView(binding.root)
-            .setPositiveButton(R.string.ok) { dialogInterface, i ->
-                listener.onSummonerAdded(binding.newSummonerDialogEditText.text.toString())
-            }
-            .setNegativeButton(R.string.cancel, null)
-            .create()
+                .setTitle(R.string.new_summoner)
+                .setView(binding.root)
+                .setPositiveButton(R.string.ok) { dialogInterface, i ->
+                    listener.onSummonerAdded(binding.newSummonerDialogEditText.text.toString())
+                }
+                .setNegativeButton(R.string.cancel, null)
+                .create()
     }
 
     private fun getContentView(): View {

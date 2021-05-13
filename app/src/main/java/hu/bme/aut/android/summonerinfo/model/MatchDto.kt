@@ -1,6 +1,6 @@
 package hu.bme.aut.android.summonerinfo.model
 
-class MatchDto{
+class MatchDto {
     var info: MatchInfo? = null
 }
 

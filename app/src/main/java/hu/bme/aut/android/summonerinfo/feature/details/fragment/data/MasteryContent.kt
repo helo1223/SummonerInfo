@@ -11,15 +11,14 @@ object MasteryContent {
         ITEMS.add(item)
     }
 
-    fun clearMasteries(){
+    fun clearMasteries() {
         ITEMS.clear()
     }
 
-    fun displayMasteries(mastery : ChampionMasteryDto) {
+    fun displayMasteries(mastery: ChampionMasteryDto) {
         addItem(MasteryItem(mastery.championId, mastery.championLevel, mastery.championPoints, mastery.championPointsSinceLastLevel, mastery.championPointsUntilNextLevel))
         ITEMS.sortByDescending { it.championPoints }
     }
-
 
 
     data class MasteryItem(val championId: Int, val championLevel: Int, val championPoints: Int, val championPointsSinceLastLevel: Int, val championPointsUntilNextLevel: Int)

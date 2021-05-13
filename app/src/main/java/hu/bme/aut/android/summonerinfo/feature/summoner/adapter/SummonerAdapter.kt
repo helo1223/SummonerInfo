@@ -9,7 +9,7 @@ class SummonerAdapter(private val listener: OnSummonerSelectedListener) : Recycl
     private var summoners: MutableList<String> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = SummonerViewHolder(
-        ItemSummonerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemSummonerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     )
 
     override fun onBindViewHolder(holder: SummonerViewHolder, position: Int) {
@@ -19,8 +19,8 @@ class SummonerAdapter(private val listener: OnSummonerSelectedListener) : Recycl
 
     override fun getItemCount(): Int = summoners.size
 
-    fun addSummoner(newSummoner: String) : Boolean{
-        if(getSummonerPosition(newSummoner)==-1 && newSummoner.trim().length in 3..16) {
+    fun addSummoner(newSummoner: String): Boolean {
+        if (getSummonerPosition(newSummoner) == -1 && newSummoner.trim().length in 3..16) {
             summoners.add(newSummoner)
             notifyItemInserted(summoners.size - 1)
             return true
@@ -36,15 +36,15 @@ class SummonerAdapter(private val listener: OnSummonerSelectedListener) : Recycl
         }
     }
 
-    fun renameSummonerEntry(position : Int, newName : String){
+    fun renameSummonerEntry(position: Int, newName: String) {
         summoners[position] = newName
         notifyItemChanged(position)
     }
 
-    fun getSummonerPosition(summoner: String) : Int{
+    fun getSummonerPosition(summoner: String): Int {
         var index = -1
-        for(name : String in summoners){
-            if(name.equals(summoner, ignoreCase = true)){
+        for (name: String in summoners) {
+            if (name.equals(summoner, ignoreCase = true)) {
                 index = summoners.indexOf(name)
             }
         }
@@ -52,7 +52,7 @@ class SummonerAdapter(private val listener: OnSummonerSelectedListener) : Recycl
     }
 
     inner class SummonerViewHolder(private val binding: ItemSummonerBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+            RecyclerView.ViewHolder(binding.root) {
         private var item: String? = null
 
         init {
@@ -60,7 +60,7 @@ class SummonerAdapter(private val listener: OnSummonerSelectedListener) : Recycl
                 listener.onSummonerSelected(item)
             }
 
-            binding.summonerItemRemoveButton.setOnClickListener{
+            binding.summonerItemRemoveButton.setOnClickListener {
                 removeSummoner(summoners.indexOf(item))
             }
         }

@@ -13,11 +13,11 @@ object HistoryContent {
         ITEMS.add(item)
     }
 
-    fun clearMatches(){
+    fun clearMatches() {
         ITEMS.clear()
     }
 
-    fun displayMatches(mm : MatchDto, summoner: String) {
+    fun displayMatches(mm: MatchDto, summoner: String) {
         addItem(HistoryItem(mm.info!!.findPlayerIndex(summoner), mm))
         ITEMS.sortByDescending { it.matchDto.info!!.gameCreation }
     }

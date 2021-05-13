@@ -71,8 +71,8 @@ class DetailsMainFragment : Fragment() {
         val league = profileDataHolder!!.getLeagues()
 
 
-        if(league.isNotEmpty()) {
-            binding.leagueSOLOTEXT.text = getString(R.string.league, league[0].tier, league[0].rank, league[0].leaguePoints.toString()+"lp")
+        if (league.isNotEmpty()) {
+            binding.leagueSOLOTEXT.text = getString(R.string.league, league[0].tier, league[0].rank, league[0].leaguePoints.toString() + "lp")
             binding.leagueSOLOWinLoss.text = getString(R.string.winloss, league[0].wins.toString(), league[0].losses.toString())
 
             val soloDrawable = getEmblem(league[0].tier!!)
@@ -82,9 +82,9 @@ class DetailsMainFragment : Fragment() {
             binding.chartSOLO.invalidate()
 
 
-            if(league.size>1) {
+            if (league.size > 1) {
 
-                binding.leagueFLEXTEXT.text = getString(R.string.league, league[1].tier, league[1].rank, league[1].leaguePoints.toString()+"lp")
+                binding.leagueFLEXTEXT.text = getString(R.string.league, league[1].tier, league[1].rank, league[1].leaguePoints.toString() + "lp")
                 binding.leagueFLEXWinLoss.text = getString(R.string.winloss, league[1].wins.toString(), league[1].losses.toString())
 
                 val flexDrawable = getEmblem(league[1].tier!!)
@@ -92,13 +92,13 @@ class DetailsMainFragment : Fragment() {
                 binding.leagueFLEX.setImageResource(flexDrawable)
                 binding.chartFLEX.data = loadCharts(league[1])
                 binding.chartFLEX.invalidate()
-           }
-        }else{
+            }
+        } else {
             binding.rankLayout.visibility = View.GONE
         }
     }
 
-    private fun getEmblem(tier : String) : Int{
+    private fun getEmblem(tier: String): Int {
         when (tier) {
             "IRON" -> return R.drawable.emblem_iron
             "BRONZE" -> return R.drawable.emblem_bronze
@@ -114,8 +114,7 @@ class DetailsMainFragment : Fragment() {
     }
 
 
-
-    private fun loadCharts(league: League) : PieData {
+    private fun loadCharts(league: League): PieData {
 
         val entries: ArrayList<PieEntry> = ArrayList()
 
@@ -123,14 +122,14 @@ class DetailsMainFragment : Fragment() {
         entries.add(PieEntry(league.wins.toFloat(), "Wins"))
 
         val dataSet = PieDataSet(entries, "Win rate")
-        dataSet.setColors(Color.rgb(255,68,68), Color.rgb(0,170,255))
+        dataSet.setColors(Color.rgb(255, 68, 68), Color.rgb(0, 170, 255))
         dataSet.valueTextSize = 10F
         dataSet.valueFormatter = MyValueFormatter()
 
         return PieData(dataSet)
     }
 
-    private fun initChart(chart : PieChart, queue: String){
+    private fun initChart(chart: PieChart, queue: String) {
         chart.setTouchEnabled(false)
         chart.setBackgroundColor(Color.TRANSPARENT)
         chart.description.isEnabled = false

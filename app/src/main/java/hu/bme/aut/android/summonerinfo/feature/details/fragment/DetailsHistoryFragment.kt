@@ -24,10 +24,10 @@ import retrofit2.Response
 class DetailsHistoryFragment : Fragment() {
 
     private var columnCount = 1
-    var summonerSpellsMap : HashMap<Int, String> = HashMap()
+    var summonerSpellsMap: HashMap<Int, String> = HashMap()
     private var profileDataHolder: ProfileDataHolder? = null
 
-    private var vAdapter : DetailsHistoryAdapter? = null
+    private var vAdapter: DetailsHistoryAdapter? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,7 +65,7 @@ class DetailsHistoryFragment : Fragment() {
         return view
     }
 
-    private fun initSpellMap(){
+    private fun initSpellMap() {
         summonerSpellsMap[1] = "SummonerCleanse"
         summonerSpellsMap[3] = "SummonerExhaust"
         summonerSpellsMap[4] = "SummonerFlash"
@@ -82,8 +82,8 @@ class DetailsHistoryFragment : Fragment() {
     private fun loadMatch(matchId: String) {
         NetworkManager.getMMatches(matchId).enqueue(object : Callback<MatchDto> {
             override fun onResponse(
-                call: Call<MatchDto>,
-                response: Response<MatchDto>
+                    call: Call<MatchDto>,
+                    response: Response<MatchDto>
             ) {
                 Log.d(TAG, "onResponse: " + response.code())
                 if (response.isSuccessful) {
@@ -92,15 +92,15 @@ class DetailsHistoryFragment : Fragment() {
             }
 
             override fun onFailure(
-                call: Call<MatchDto>,
-                throwable: Throwable
+                    call: Call<MatchDto>,
+                    throwable: Throwable
             ) {
 
                 throwable.printStackTrace()
                 Toast.makeText(
-                    this@DetailsHistoryFragment.context,
-                    "Network request error occurred, check LOG",
-                    Toast.LENGTH_SHORT
+                        this@DetailsHistoryFragment.context,
+                        "Network request error occurred, check LOG",
+                        Toast.LENGTH_SHORT
                 ).show()
             }
         })
