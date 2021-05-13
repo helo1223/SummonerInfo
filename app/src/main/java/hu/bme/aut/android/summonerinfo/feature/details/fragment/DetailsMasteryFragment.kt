@@ -51,6 +51,8 @@ class DetailsMasteryFragment : Fragment() {
         vAdapter = DetailsMasteryAdapter(MasteryContent.ITEMS, this)
 
         MasteryContent.clearMasteries()
+
+        if(profileDataHolder!!.getProfile()!=null)
         loadMasteries(profileDataHolder!!.getProfile()!!.id!!)
 
     }
