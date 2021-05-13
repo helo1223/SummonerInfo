@@ -20,7 +20,7 @@ class SummonerAdapter(private val listener: OnSummonerSelectedListener) : Recycl
     override fun getItemCount(): Int = summoners.size
 
     fun addSummoner(newSummoner: String) : Boolean{
-        if(getSummonerPosition(newSummoner)==-1 && newSummoner.length in 3..16) {
+        if(getSummonerPosition(newSummoner)==-1 && newSummoner.trim().length in 3..16) {
             summoners.add(newSummoner)
             notifyItemInserted(summoners.size - 1)
             return true
