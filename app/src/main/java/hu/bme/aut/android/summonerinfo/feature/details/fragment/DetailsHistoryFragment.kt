@@ -41,7 +41,7 @@ class DetailsHistoryFragment : Fragment() {
         vAdapter = DetailsHistoryAdapter(HistoryContent.ITEMS, this)
 
         HistoryContent.clearMatches()
-        profileDataHolder!!.getMatches().forEach { loadMatch(it); vAdapter!!.notifyDataSetChanged() }
+        profileDataHolder!!.getMatches().forEach { loadMatch(it); }
 
     }
 
